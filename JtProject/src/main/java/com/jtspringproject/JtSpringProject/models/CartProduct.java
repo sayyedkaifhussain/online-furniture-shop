@@ -9,7 +9,7 @@ import java.util.List;
 public class CartProduct {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
@@ -17,7 +17,7 @@ public class CartProduct {
     private Cart cart;
 
     @ManyToOne
-    @JoinTable(name="product_id")
+    @JoinColumn(name="product_id")
     private Product product;
 
 

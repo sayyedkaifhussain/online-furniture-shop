@@ -22,7 +22,7 @@
             <div class="form-group">
                 <label for="firstName">User Name</label>
                 <input type="hidden" name="userid" value="${userid }">
-                <input type="text" name="username" id="firstName" required placeholder="Your Username*" value="${username }" required class="form-control form-control-lg">
+                <input type="text" readonly="readonly" name="username" id="firstName" required placeholder="Your Username*" value="${username }" required class="form-control form-control-lg">
             </div>
             <div class="form-group">
                 <label for="email">Email address</label>
@@ -42,7 +42,7 @@
             </div>
 
             <input type="submit" value="Update Profile" class="btn btn-primary btn-block"><br>
-            
+
         </form>
     </div>
 </div>

@@ -2,11 +2,12 @@ package com.jtspringproject.JtSpringProject.services;
 
 import com.jtspringproject.JtSpringProject.dao.cartDao;
 import com.jtspringproject.JtSpringProject.models.Cart;
-import com.jtspringproject.JtSpringProject.models.Category;
+import com.jtspringproject.JtSpringProject.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class cartService {
@@ -17,10 +18,10 @@ public class cartService {
         return cartDao.addCart(cart);
     }
 
-    //    public Cart getCart(int id)
-//    {
+//    public Cart getCart(int id) {
 //        return cartDao.getCart(id);
 //    }
+
     public List<Cart> getCarts() {
         return this.cartDao.getCarts();
     }
@@ -33,9 +34,16 @@ public class cartService {
         cartDao.deleteCart(cart);
     }
 
-//    pubiic List<Cart> getCartByUserId(int customer_id){
-//        return cartDao.getCartsByCustomerID(customer_id);
-//    }
+    public Cart getUserCart(User user) {
+        Optional<Cart> optionalCart = Optional.ofNullable(cartDao.getCartsByCustomerID(user.getId()));
+        return optionalCart.orElseGet(() -> {
+            Cart cart = new Cart();
+            cart.setCustomer(user);
+            return cart;
+        });
+    }
 
-
+    public void saveOrUpdateCart(Cart cart) {
+        cartDao.saveOrUpdate(cart);
+    }
 }

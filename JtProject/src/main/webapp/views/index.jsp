@@ -39,13 +39,16 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/}" href="#">CART</a>
+                                <a class="nav-link" href="/admin/login">Admin</a>
+                            </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/carts?id=${user.id}">Go to Cart</a>
                 </li>
                  <li class="nav-item active">
-                    <a class="nav-link" href="profileDisplay" >Profile</a>
+                    <a class="nav-link" href="profileDisplay?id=${user.id}" >Profile</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" sec:authorize="isAuthenticated()" href="logout">Logout</a>
+                    <a class="nav-link" sec:authorize="isAuthenticated()" href="/">Logout</a>
                 </li>
                
             </ul>
@@ -82,8 +85,7 @@
   <main>
 
     <div class="container">
-      <h1>Welcome to Perishable Shop</h1>
-
+      <h1>Welcome to Online Furniture Shop</h1>
 
       <div class="row">
       <c:forEach var="product" items="${products}">
@@ -95,7 +97,7 @@
               <h5 class="card-text">Category: ${product.category.name}</h5>
               <h5 class="card-text">Price: ${product.price}</h5>
               <p class="card-text">Description: ${product.description}</p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
+              <a href="products/addtocart?productId=${product.id}&id=${user.id}" class="btn btn-primary">Add to Cart</a>
             </div>
           </div>
         </div> </c:forEach>

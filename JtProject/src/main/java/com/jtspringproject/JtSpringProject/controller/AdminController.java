@@ -4,9 +4,6 @@ import java.sql.*;
 import java.sql.PreparedStatement;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +16,6 @@ import com.jtspringproject.JtSpringProject.models.User;
 import com.jtspringproject.JtSpringProject.services.categoryService;
 import com.jtspringproject.JtSpringProject.services.productService;
 import com.jtspringproject.JtSpringProject.services.userService;
-import com.mysql.cj.protocol.Resultset;
-
-import net.bytebuddy.asm.Advice.This;
-import net.bytebuddy.asm.Advice.OffsetMapping.ForOrigin.Renderer.ForReturnTypeName;
 
 @Controller
 @RequestMapping("/admin")
@@ -38,11 +31,11 @@ public class AdminController {
 	
 	int adminlogcheck = 0;
 	String usernameforclass = "";
-	@RequestMapping(value = {"/","/logout"})
+	@GetMapping(value = {"/logout"})
 	public String returnIndex() {
 		adminlogcheck =0;
 		usernameforclass = "";
-		return "userLogin";
+        return "redirect:/admin/login";
 	}
 	
 	
@@ -165,7 +158,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "products/add",method=RequestMethod.POST)
-	public String addProduct(@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage) {
+	public String addProduct(@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("width") int width, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage) {
 		System.out.println(categoryId);
 		Category category = this.categoryService.getCategory(categoryId);
 		Product product = new Product();
@@ -175,7 +168,7 @@ public class AdminController {
 		product.setDescription(description);
 		product.setPrice(price);
 		product.setImage(productImage);
-		product.setWeight(weight);
+		product.setWidth(width);
 		product.setQuantity(quantity);
 		this.productService.addProduct(product);
 		return "redirect:/admin/products";
@@ -193,8 +186,8 @@ public class AdminController {
 		return mView;
 	}
 	
-	@RequestMapping(value = "products/update/{id}",method=RequestMethod.POST)
-	public String updateProduct(@PathVariable("id") int id ,@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage)
+	@PostMapping("products/update/{id}")
+	public String updateProduct(@PathVariable("id") int id ,@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("width") int width, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage)
 	{
 
 //		this.productService.updateProduct();
@@ -215,75 +208,15 @@ public class AdminController {
 	
 	@GetMapping("customers")
 	public ModelAndView getCustomerDetail() {
-		if(adminlogcheck==0){
-			ModelAndView mView = new ModelAndView("adminlogin");
-			return mView;
-		}
-		else {
-			ModelAndView mView = new ModelAndView("displayCustomers");
-			List<User> users = this.userService.getUsers();
-			mView.addObject("customers", users);
-			return mView;
-		}
-	}
-	
-	
-	@GetMapping("profileDisplay")
-	public String profileDisplay(Model model) {
-		String displayusername,displaypassword,displayemail,displayaddress;
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","");
-			PreparedStatement stmt = con.prepareStatement("select * from users where username = ?"+";");
-			stmt.setString(1, usernameforclass);
-			ResultSet rst = stmt.executeQuery();
-			
-			if(rst.next())
-			{
-			int userid = rst.getInt(1);
-			displayusername = rst.getString(2);
-			displayemail = rst.getString(3);
-			displaypassword = rst.getString(4);
-			displayaddress = rst.getString(5);
-			model.addAttribute("userid",userid);
-			model.addAttribute("username",displayusername);
-			model.addAttribute("email",displayemail);
-			model.addAttribute("password",displaypassword);
-			model.addAttribute("address",displayaddress);
-			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		System.out.println("Hello");
-		return "updateProfile";
-	}
-	
-	@RequestMapping(value = "updateuser",method=RequestMethod.POST)
-	public String updateUserProfile(@RequestParam("userid") int userid,@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("address") String address) 
-	
-	{
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","");
-			
-			PreparedStatement pst = con.prepareStatement("update users set username= ?,email = ?,password= ?, address= ? where uid = ?;");
-			pst.setString(1, username);
-			pst.setString(2, email);
-			pst.setString(3, password);
-			pst.setString(4, address);
-			pst.setInt(5, userid);
-			int i = pst.executeUpdate();	
-			usernameforclass = username;
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "redirect:/index";
-	}
+        if (adminlogcheck == 0) {
+            ModelAndView mView = new ModelAndView("adminlogin");
+            return mView;
+        } else {
+            ModelAndView mView = new ModelAndView("displayCustomers");
+            List<User> users = this.userService.getUsers();
+            mView.addObject("customers", users);
+            return mView;
+        }
+    }
 
 }

@@ -37,9 +37,9 @@
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
 					<li class="nav-item active"><a class="nav-link"
-						href="/adminhome" >Home Page</a></li>
+						href="/admin/Dashboard" >Home Page</a></li>
 					<li class="nav-item active"><a class="nav-link"
-						href="/logout" >Logout</a></li>
+						href="/admin/logout" >Logout</a></li>
 
 				</ul>
 
@@ -83,11 +83,11 @@
 						<input type="number" class="form-control border border-warning" required name="price" min="1" placeholder="Price">
 					</div>
 					<div class="form-group">
-						<label for="weight">Weight in grams</label> 
-						<input type="number" class="form-control border border-warning" required name="weight" min="1" placeholder="Weight">
+						<label for="width">Width in inches</label>
+						<input type="number" class="form-control border border-warning" required name="width" min="1" placeholder="Width">
 					</div>
 					<div class="form-group">
-						<label for="weight">Available Quantity</label> 
+						<label for="width">Available Quantity</label>
 						<input type="number" class="form-control border border-warning" required name="quantity" min="1" placeholder="Quantity">
 					</div>
 					
@@ -106,11 +106,6 @@
 
 
 					</div>
-					<div class="form-group">
-						<img src="Product Images/one.jpg" alt="Hello" id="imgPreview" height="100px" width="100px"
-							style="margin-top: 20px" >
-					</div>
-					<input type="hidden" name="imgName">
 					<input type="submit" class="btn btn-primary">
 				</div>
 			</div>

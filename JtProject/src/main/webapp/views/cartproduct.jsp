@@ -1,8 +1,7 @@
 <%@page import="java.sql.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.text.*"%>
-<%@page import ="java.io.FileOutputStream" %>    
-<%@page import=" java.io.ObjectOutputStream" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -34,85 +33,76 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/adminhome">Home
+					<li class="nav-item active"><a class="nav-link" href="/">Home
 							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/logout">Logout</a>
+					<li class="nav-item active"><a class="nav-link" href="/">Logout</a>
 					</li>
-
 				</ul>
-
 			</div>
 		</div>
 	</nav><br>
-	<div class="container-fluid">
 
-		<a style="margin: 20px 0" class="btn btn-primary"
-			href="/user/products">Add Product</a><br>
-		<table class="table">
+	    <div class="container-fluid">
+              <a style="margin: 20px 0" class="btn btn-primary"
+                 href="/">Add Product</a>
+         <!-- Button trigger modal -->
+         <button style="margin: 20px 700px; padding: 5px 40px;" type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter2">Buy</button>
 
-			<tr>
-				<th scope="col">id</th>
-				<th scope="col">Product Name</th>
-				<th scope="col">Price</th>
-				<th scope="col">Description</th>
-				<th scope="col">Delete</th>
-				
-			</tr>
-			<tbody>
-				<tr>
+         <!-- Calculate total price using JSTL -->
+         <c:set var="totalPrice" value="0" />
+         <c:forEach var="product" items="${products}">
+           <c:set var="totalPrice" value="${totalPrice + product.price}" />
+         </c:forEach>
 
-					<%
-					try {
-						String url = "jdbc:mysql://localhost:3306/springproject";
-						Class.forName("com.mysql.cj.jdbc.Driver");
-						Connection con = DriverManager.getConnection(url, "root", "");
-						Statement stmt = con.createStatement();
-						Statement stmt2 = con.createStatement();
-						ResultSet rs = stmt.executeQuery("select * from cart");
-					%>
-					<%
-					while (rs.next()) {
-					%>
-					<td>
-						<%= rs.getInt(1) %>
-					</td>
-					<td>
-						<%= rs.getString(2) %>
-					</td>
-					<td>
-						<%= rs.getString(3) %>
-						
-					</td>
-					<td>
-						<%= rs.getString(4) %>
-						
-					</td>
-					
-					
+         <!-- Modal -->
+         <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered" role="document">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLongTitle">Order placed successfully &#9989;</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+               </div>
+               <div class="modal-body text-center">
+                 <div class="form-group">
+                   Please pay total of ${totalPrice} cash at the time of delivery.
+                 </div>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               </div>
+             </div>
+           </div>
+         </div>
 
-					<td>
-					<form action="cart/delete" method="get">
-							<input type="hidden" name="id" value="<%=rs.getInt(1)%>">
-							<input type="submit" value="Delete" class="btn btn-danger">
-					</form>
-					</td>
-					
-
-				</tr>
-				<%
-				}
-				%>
-
-			</tbody>
-		</table>
-		<%
-		} catch (Exception ex) {
-		out.println("Exception Occurred:: " + ex.getMessage());
-		}
-		%>
-	</div>
-
-
+              <table class="table table-hover">
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                 <tbody>
+                    <c:forEach var="product" items="${products}">
+                       <tr>
+                           <td>${product.id}</td>
+                           <td>${product.name}</td>
+                           <td>${product.price}</td>
+                           <td>${product.description}</td>
+                           <td>
+                               <form action="cart/delete" method="get">
+                                   <input type="hidden" name="userId" value="${customer.id}">
+                                   <input type="hidden" name="id" value="${product.id}">
+                                   <input type="submit" value="Delete" class="btn btn-danger">
+                               </form>
+                           </td>
+                       </tr>
+                    </c:forEach>
+                 </tbody>
+              </table>
+           </div>
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

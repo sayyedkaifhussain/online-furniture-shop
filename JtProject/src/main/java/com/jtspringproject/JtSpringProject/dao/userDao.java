@@ -2,9 +2,7 @@ package com.jtspringproject.JtSpringProject.dao;
 
 import java.util.List;
 
-import javax.persistence.NoResultException;
-import javax.sound.midi.Soundbank;
-
+import com.jtspringproject.JtSpringProject.models.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -67,4 +65,9 @@ public class userDao {
 		query.setParameter("username",username);
 		return !query.getResultList().isEmpty();
 	}
+
+    @Transactional
+    public User getUserById(int id) {
+        return this.sessionFactory.getCurrentSession().get(User.class, id);
+    }
 }

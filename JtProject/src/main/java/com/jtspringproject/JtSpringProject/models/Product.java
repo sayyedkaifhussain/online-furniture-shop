@@ -29,7 +29,7 @@ public class Product {
 	
 	private int price;
 	
-	private int weight;
+	private int width;
 	
 	private String description;
 
@@ -82,12 +82,12 @@ public class Product {
 		this.price = price;
 	}
 
-	public int getWeight() {
-		return weight;
+	public int getWidth() {
+		return width;
 	}
 
-	public void setWeight(int weight) {
-		this.weight = weight;
+	public void setWidth(int width) {
+		this.width = width;
 	}
 
 	public String getDescription() {
@@ -101,6 +101,13 @@ public class Product {
 	@ManyToOne
     @JoinColumn(name = "customer_id")
     private User customer;
-	
+
+    public User getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(User customer) {
+        this.customer = customer;
+    }
 	
 }

@@ -36,9 +36,9 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/adminhome">Home
+					<li class="nav-item active"><a class="nav-link" href="/admin/Dashboard">Home
 							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/logout">Logout</a>
+					<li class="nav-item active"><a class="nav-link" href="/admin/logout">Logout</a>
 					</li>
 
 				</ul>
@@ -59,7 +59,7 @@
 				<th scope="col">Preview</th>
 				<th scope="col">Quantity</th>
 				<th scope="col">Price</th>
-				<th scope="col">Weight</th>
+				<th scope="col">Width</th>
 				<th scope="col">Descrption</th>
 				<th scope="col">Delete</th>
 				<th scope="col">Update</th>
@@ -91,7 +91,7 @@
 						${product.price }
 					</td>
 					<td>
-						${product.weight }
+						${product.width }
 					</td>
 					<td>
 						${product.description }

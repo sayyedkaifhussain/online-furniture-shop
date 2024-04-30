@@ -29,14 +29,14 @@ public class cartDao {
         return this.sessionFactory.getCurrentSession().createQuery("from CART").list();
     }
 
-//    @Transactional
-//    public List<Cart> getCartsByCustomerID(Integer customer_id) {
-//        String hql = "from CART where CART.customer_id = :customer_id";
-//        return this.sessionFactory.getCurrentSession()
-//                .createQuery(hql, Cart.class)
-//                .setParameter("customer_id", customer_id)
-//                .list();
-//    }
+    @Transactional
+    public Cart getCartsByCustomerID(Integer customer_id) {
+        String hql = "FROM CART c WHERE c.customer.id = :customer_id";
+        return this.sessionFactory.getCurrentSession()
+                             .createQuery(hql, Cart.class)
+                             .setParameter("customer_id", customer_id)
+                             .uniqueResult();
+    }
 
     @Transactional
     public void updateCart(Cart cart) {
@@ -46,5 +46,11 @@ public class cartDao {
     @Transactional
     public void deleteCart(Cart cart) {
         this.sessionFactory.getCurrentSession().delete(cart);
+    }
+
+
+    @Transactional
+    public void saveOrUpdate(Cart cart) {
+        this.sessionFactory.getCurrentSession().saveOrUpdate(cart);
     }
 }

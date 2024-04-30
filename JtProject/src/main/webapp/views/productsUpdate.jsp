@@ -36,15 +36,15 @@
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
 					<li class="nav-item active"><a class="nav-link"
-						href="/dashboard" >Home Page</a></li>
+						href="/admin/Dashboard" >Home Page</a></li>
 					<li class="nav-item active"><a class="nav-link"
-						href="/logout" >Logout</a></li>
+						href="/admin/logout" >Logout</a></li>
 				</ul>
 
 			</div>
 		</div>
 	</nav><br>
-	<c:forEach var="product" items="products">
+
 	<div class="jumbotron container border border-info">
 		<h3>Update Existing Product</h3>
 		<form action="/products/update/${product.id}" method="post">
@@ -77,11 +77,11 @@
 						<input type="number" class="form-control border border-success" required name="price" value="${ product.price }" min="1" placeholder="Price">
 					</div>
 					<div class="form-group">
-						<label for="weight">Weight in grams</label> 
-						<input type="number" class="form-control border border-success" required name="weight" value="${product.weight }" min="1" placeholder="Weight">
+						<label for="width">Width in inches</label>
+						<input type="number" class="form-control border border-success" required name="width" value="${product.width }" min="1" placeholder="Width">
 					</div>
 					<div class="form-group">
-						<label for="weight">Available Quantity</label> 
+						<label for="width">Available Quantity</label>
 						<input type="number" class="form-control border border-success" required name="quantity" value="${ product.quantity }" min="1" placeholder="Quantity">
 					</div>
 					
@@ -114,7 +114,6 @@
 			</div>
 		</form>
 	</div>
-	</c:forEach>
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
